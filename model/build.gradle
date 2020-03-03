@@ -1,0 +1,13 @@
+apply plugin: 'kotlin'
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+dependencies {
+    def modelDependencies = rootProject.ext.modelDependencies
+
+    implementation modelDependencies.kotlin
+}
