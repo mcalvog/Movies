@@ -7,5 +7,16 @@ configurations.all {
 }
 
 dependencies {
-    //
+    def dataDependencies = rootProject.ext.dataDependencies
+
+    implementation project(':domain')
+    implementation project(':model')
+
+    implementation dataDependencies.kotlin
+    implementation dataDependencies.javaxAnnotation
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.rxKotlin
+    implementation dataDependencies.retrofit
+    implementation dataDependencies.retrofitGson
+    implementation dataDependencies.retrofitRx
 }

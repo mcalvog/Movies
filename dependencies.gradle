@@ -17,27 +17,46 @@ ext {
     kotlinLifecycleVersion = '2.2.0'
     androidxLifecycleVersion = '2.2.0'
     rxKotlinVersion = '2.4.0'
+    rxAndroidVersion = '2.1.1'
+    multidexVersion = '1.0.3'
     navigationVersion = '2.2.0'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
+    retrofitVersion = '2.7.2'
+    glideVersion = '4.11.0'
+    paletteVersion = '1.0.0'
 
     appDependencies = [
             kotlin:                "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinKtx:             "androidx.core:core-ktx:$kotlinKtxVersion",
-            appCompat:             "androidx.appcompat:appcompat:${appCompatVersion}",
-            constraintLayout:      "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
+            multidex:              "com.android.support:multidex:$multidexVersion",
+            appCompat:             "androidx.appcompat:appcompat:$appCompatVersion",
+            constraintLayout:      "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
             navigationFragment:    "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
             navigationUi:          "androidx.navigation:navigation-ui-ktx:$navigationVersion",
-            javaxAnnotation:       "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject:           "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxKotlin:              "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
+            javaxAnnotation:       "javax.annotation:jsr250-api:$javaxAnnotationVersion",
+            javaxInject:           "javax.inject:javax.inject:$javaxInjectVersion",
+            rxKotlin:              "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+            rxAndroid:             "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            glide:                 "com.github.bumptech.glide:glide:$glideVersion",
+            palette:               "androidx.palette:palette:$paletteVersion"
     ]
 
     domainDependencies = [
             kotlin:                "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            javaxAnnotation:       "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject:           "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxKotlin:              "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
+            javaxAnnotation:       "javax.annotation:jsr250-api:$javaxAnnotationVersion",
+            javaxInject:           "javax.inject:javax.inject:$javaxInjectVersion",
+            rxKotlin:              "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+    ]
+
+    dataDependencies = [
+            kotlin:                "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            javaxAnnotation:       "javax.annotation:jsr250-api:$javaxAnnotationVersion",
+            javaxInject:           "javax.inject:javax.inject:$javaxInjectVersion",
+            rxKotlin:              "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+            retrofit:              "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitGson:          "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRx:            "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     ]
 
     modelDependencies = [

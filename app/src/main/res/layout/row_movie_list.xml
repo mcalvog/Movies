@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_movie_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_minimum"
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+    android:foreground="?selectableItemBackground">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/black"
+        app:cardPreventCornerOverlap="false"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:id="@+id/ll_text_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.marcoscg.movies.common.widget.SquareImageView
+                android:id="@+id/iv_movie_poster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/tv_movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?android:textColorPrimary"
+                android:paddingTop="@dimen/margin_semi_medium"
+                android:paddingBottom="@dimen/margin_minimum"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+
+            <TextView
+                android:id="@+id/tv_movie_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?android:textColorSecondary"
+                android:paddingBottom="@dimen/margin_semi_medium"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

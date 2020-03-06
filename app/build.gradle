@@ -13,12 +13,24 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Enabling multidex support
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
@@ -31,16 +43,20 @@ dependencies {
 
     implementation appDependencies.kotlin
     implementation appDependencies.kotlinKtx
+    implementation appDependencies.multidex
 
     implementation appDependencies.javaxAnnotation
     implementation appDependencies.javaxInject
     implementation appDependencies.rxKotlin
+    implementation appDependencies.rxAndroid
 
     implementation appDependencies.navigationFragment
     implementation appDependencies.navigationUi
 
     implementation appDependencies.appCompat
     implementation appDependencies.constraintLayout
+    implementation appDependencies.glide
+    implementation appDependencies.palette
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

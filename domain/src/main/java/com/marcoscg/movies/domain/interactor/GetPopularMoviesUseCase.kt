@@ -1,12 +1,12 @@
 package com.marcoscg.movies.domain.interactor
 
 import com.marcoscg.movies.domain.repository.MoviesRemoteRepository
-import com.marcoscg.movies.model.Movie
-import io.reactivex.Observable
+import com.marcoscg.movies.model.MoviesResponse
+import io.reactivex.Single
 
 class GetPopularMoviesUseCase(private val moviesRemoteRepository: MoviesRemoteRepository) {
 
-    fun perform(): Observable<List<Movie>> {
+    fun execute(): Single<MoviesResponse> {
         return moviesRemoteRepository.getPopularMovies()
     }
 

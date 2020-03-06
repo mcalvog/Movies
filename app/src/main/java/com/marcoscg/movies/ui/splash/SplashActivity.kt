@@ -3,7 +3,6 @@ package com.marcoscg.movies.ui.splash
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import com.marcoscg.movies.R
 import com.marcoscg.movies.common.navigator.navigateToHome
 
 class SplashActivity : AppCompatActivity() {
@@ -12,7 +11,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
             if (finish) {
