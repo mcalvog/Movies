@@ -22,6 +22,9 @@ import com.marcoscg.movies.common.glide.PaletteGlideListener
 import com.marcoscg.movies.data.sources.remote.api.ApiClient
 import com.marcoscg.movies.model.Movie
 import kotlinx.android.synthetic.main.row_movie_list.view.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 class PopularMoviesAdapter(val context: Context?, var items: List<Movie> = ArrayList()) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -33,7 +36,10 @@ class PopularMoviesAdapter(val context: Context?, var items: List<Movie> = Array
         val movie = items.get(position)
 
         holder.tvMovieTitle.text = movie.title
-        holder.tvMovieDescription.text = movie.overview
+        holder.tvMovieDescription.text = context?.getString(R.string.movie_row_desc_pattern,
+            LocalDate.parse(movie.release_date).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+            movie.vote_average.toString()
+        )
         holder.ivMoviePoster.setImageResource(R.drawable.poster_placeholder)
         holder.llMovieTextContainer.setBackgroundColor(Color.DKGRAY)
 

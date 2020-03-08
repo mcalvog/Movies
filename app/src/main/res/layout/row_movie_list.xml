@@ -40,6 +40,7 @@
                 android:paddingRight="@dimen/margin_medium"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:gravity="center_horizontal"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
 
             <TextView
@@ -52,6 +53,7 @@
                 android:paddingRight="@dimen/margin_medium"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:gravity="center_horizontal"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
 
         </LinearLayout>
