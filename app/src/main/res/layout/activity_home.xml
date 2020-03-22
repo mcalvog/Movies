@@ -10,13 +10,15 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:background="@color/colorPrimary"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/rv_fragment_movie_list">
 
         <com.marcoscg.movies.common.widget.CenteredToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -24,7 +26,6 @@
         android:id="@+id/nav_host_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/design_bottom_navigation_height"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,6 +36,7 @@
         android:layout_gravity="bottom"
         app:itemTextColor="@color/bottom_navigation_item"
         app:itemIconTint="@color/bottom_navigation_item"
-        app:menu="@menu/menu_bottom"/>
+        app:menu="@menu/menu_bottom"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

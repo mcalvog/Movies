@@ -2,12 +2,12 @@ package com.marcoscg.movies.common.utils
 
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import com.marcoscg.movies.R
 
 object WindowUtils {
@@ -43,7 +43,10 @@ object WindowUtils {
     }
 
     fun setToolbarTopPadding(toolbar: Toolbar) {
-        toolbar.setPadding(0, getStatusBarHeight(toolbar.context), 0, 0)
+        toolbar.setOnApplyWindowInsetsListener { v, insets ->
+            v.updatePadding(top = insets.systemWindowInsetTop)
+            insets
+        }
     }
 
     @TargetApi(23)
@@ -76,15 +79,6 @@ object WindowUtils {
         flags = flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
         activity.window.decorView.systemUiVisibility = flags
         activity.window.navigationBarColor = ContextCompat.getColor(activity, R.color.colorBackground)
-    }
-
-    private fun getStatusBarHeight(context: Context): Int {
-        var result = 0
-        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = context.resources.getDimensionPixelSize(resourceId)
-        }
-        return result
     }
 
 }

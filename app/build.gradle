@@ -54,10 +54,12 @@ dependencies {
     implementation appDependencies.navigationUi
 
     implementation appDependencies.appCompat
+    implementation appDependencies.material
     implementation appDependencies.constraintLayout
     implementation appDependencies.glide
     implementation appDependencies.palette
     implementation appDependencies.threeTen
+    implementation appDependencies.swipeRefreshLayout
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

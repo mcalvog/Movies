@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.marcoscg.movies.R
-import com.marcoscg.movies.common.utils.gone
-import com.marcoscg.movies.common.utils.visible
 import com.marcoscg.movies.data.Resource
 import com.marcoscg.movies.model.Movie
 import com.marcoscg.movies.ui.home.master.PopularMoviesAdapter
@@ -37,6 +35,7 @@ class UpcomingFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupRecyclerView()
+        setupSwipeRefresh()
 
         if (upcomingViewModel.getUpcomingMovies().value == null)
             upcomingViewModel.fetchUpcomingMovies()
@@ -55,15 +54,15 @@ class UpcomingFragment : Fragment() {
     private fun handleMoviesDataState(state: Resource<List<Movie>>) {
         when (state.status) {
             Resource.Status.LOADING -> {
-                fragment_home_loading_view.visible()
+                srl_fragment_movie_list.isRefreshing = true
             }
             Resource.Status.SUCCESS -> {
-                fragment_home_loading_view.gone()
+                srl_fragment_movie_list.isRefreshing = false
                 loadMovies(state.data)
             }
             Resource.Status.ERROR -> {
-                fragment_home_loading_view.gone()
-                Toast.makeText(context, "Error: ${state.message}", Toast.LENGTH_LONG).show()
+                srl_fragment_movie_list.isRefreshing = false
+                Snackbar.make(srl_fragment_movie_list, "Error: ${state.message}", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -75,6 +74,12 @@ class UpcomingFragment : Fragment() {
     private fun setupRecyclerView() {
         popularMoviesAdapter = PopularMoviesAdapter(context)
 
-        rv_fragment_home.adapter = popularMoviesAdapter
+        rv_fragment_movie_list.adapter = popularMoviesAdapter
+    }
+
+    private fun setupSwipeRefresh() {
+        srl_fragment_movie_list.setOnRefreshListener {
+            upcomingViewModel.fetchUpcomingMovies()
+        }
     }
 }

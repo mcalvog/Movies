@@ -8,5 +8,7 @@
     <color name="colorStatusBarLight">#CCFFFFFF</color>
     <color name="colorStatusBarDark">#CC202124</color>
 
+    <color name="bottom_navigation_view_selected_color">@color/colorAccent</color>
+
     <color name="ic_launcher_background">#ffc107</color>
 </resources>
