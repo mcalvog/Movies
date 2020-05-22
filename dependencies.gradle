@@ -20,10 +20,10 @@ ext {
     rxKotlinVersion = '2.4.0'
     rxAndroidVersion = '2.1.1'
     multidexVersion = '1.0.3'
-    navigationVersion = '2.2.0'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     retrofitVersion = '2.7.2'
+    okHttpLoggingVersion = '4.4.0'
     glideVersion = '4.11.0'
     paletteVersion = '1.0.0'
     threeTenVersion = '1.2.2'
@@ -36,8 +36,8 @@ ext {
             appCompat:             "androidx.appcompat:appcompat:$appCompatVersion",
             material:              "com.google.android.material:material:$materialVersion",
             constraintLayout:      "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
-            navigationFragment:    "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
-            navigationUi:          "androidx.navigation:navigation-ui-ktx:$navigationVersion",
+            navigationFragment:    "androidx.navigation:navigation-fragment-ktx:$nav_version",
+            navigationUi:          "androidx.navigation:navigation-ui-ktx:$nav_version",
             javaxAnnotation:       "javax.annotation:jsr250-api:$javaxAnnotationVersion",
             javaxInject:           "javax.inject:javax.inject:$javaxInjectVersion",
             rxKotlin:              "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
@@ -62,7 +62,8 @@ ext {
             rxKotlin:              "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
             retrofit:              "com.squareup.retrofit2:retrofit:$retrofitVersion",
             retrofitGson:          "com.squareup.retrofit2:converter-gson:$retrofitVersion",
-            retrofitRx:            "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+            retrofitRx:            "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            okHttpLogging:         "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingVersion"
     ]
 
     modelDependencies = [

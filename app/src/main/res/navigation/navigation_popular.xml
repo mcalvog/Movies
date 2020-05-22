@@ -10,6 +10,26 @@
         android:id="@+id/nav_popular"
         android:name="com.marcoscg.movies.ui.home.PopularFragment"
         android:label="@string/popular_movies"
-        tools:layout="@layout/fragment_movie_list" />
+        tools:layout="@layout/fragment_movie_list">
+
+        <action
+            android:id="@+id/navigateToMovieDetails"
+            app:destination="@id/nav_movie_detail"/>
+
+    </fragment>
+
+    <activity
+        android:id="@+id/nav_movie_detail"
+        android:name="com.marcoscg.movies.ui.details.MovieDetailsActivity">
+
+        <argument
+            android:name="id"
+            app:argType="integer" />
+
+        <argument
+            android:name="poster_path"
+            app:argType="string"/>
+
+    </activity>
 
 </navigation>

@@ -3,6 +3,7 @@
     <string name="popular_movies">Popular</string>
     <string name="upcoming_movies">Upcoming</string>
     <string name="favorite_movies">Favorite</string>
+    <string name="movie_details">Movie details</string>
 
     <string name="no_ratings">No ratings</string>
 

@@ -49,20 +49,34 @@ object WindowUtils {
         }
     }
 
-    @TargetApi(23)
-    private fun setLightStatusBar(activity: Activity) {
+    fun clearStatusBar(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            setDarkStatusBar(activity, false)
+        }
+
         var flags = activity.window.decorView.systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        flags = flags and View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN.inv()
         activity.window.decorView.systemUiVisibility = flags
-        activity.window.statusBarColor = ContextCompat.getColor(activity, R.color.colorStatusBarLight)
     }
 
     @TargetApi(23)
-    private fun setDarkStatusBar(activity: Activity) {
+    private fun setLightStatusBar(activity: Activity, colored: Boolean = true) {
+        var flags = activity.window.decorView.systemUiVisibility
+        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        activity.window.decorView.systemUiVisibility = flags
+
+        if (colored)
+            activity.window.statusBarColor = ContextCompat.getColor(activity, R.color.colorStatusBarLight)
+    }
+
+    @TargetApi(23)
+    private fun setDarkStatusBar(activity: Activity, colored: Boolean = true) {
         var flags = activity.window.decorView.systemUiVisibility
         flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         activity.window.decorView.systemUiVisibility = flags
-        activity.window.statusBarColor = ContextCompat.getColor(activity, R.color.colorStatusBarDark)
+
+        if (colored)
+            activity.window.statusBarColor = ContextCompat.getColor(activity, R.color.colorStatusBarDark)
     }
 
     @TargetApi(26)

@@ -19,4 +19,11 @@ dependencies {
     implementation dataDependencies.retrofit
     implementation dataDependencies.retrofitGson
     implementation dataDependencies.retrofitRx
+    implementation dataDependencies.okHttpLogging
+}
+
+static def getApiKey() {
+    Properties props = new Properties()
+    props.load(new FileInputStream(new File('secrets.properties')))
+    return props['THE_MOVIE_DB_API_KEY']
 }

@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.marcoscg.movies.ui.home.HomeActivity"/>
+        <activity android:name=".ui.details.MovieDetailsActivity"/>
     </application>
 
 </manifest>

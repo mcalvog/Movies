@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_minimum"
-    android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
-    android:foreground="?selectableItemBackground">
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_movie_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
         app:cardBackgroundColor="@android:color/black"
         app:cardPreventCornerOverlap="false"
         app:cardCornerRadius="@dimen/margin_small"
@@ -26,8 +27,7 @@
                 android:id="@+id/iv_movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:background="@android:color/darker_gray"/>
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/tv_movie_title"
