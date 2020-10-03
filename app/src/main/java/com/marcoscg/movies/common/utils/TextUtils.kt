@@ -1,3 +1,9 @@
 package com.marcoscg.movies.common.utils
 
-class TextUtils
+fun String?.orNa(): String {
+    return if (isNullOrEmpty()) "N/A" else this
+}
+
+fun String?.or(b: String): String {
+    return if (isNullOrEmpty()) b else this
+}

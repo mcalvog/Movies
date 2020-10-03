@@ -6,15 +6,15 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.TextViewCompat
+import com.google.android.material.appbar.MaterialToolbar
 import com.marcoscg.movies.R
 
 class CenteredToolbar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = androidx.appcompat.R.attr.toolbarStyle
-) : Toolbar(context, attrs, defStyleAttr) {
+) : MaterialToolbar(context, attrs, defStyleAttr) {
 
     private val titleView = AppCompatTextView(getContext())
 

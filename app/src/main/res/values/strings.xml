@@ -5,8 +5,16 @@
     <string name="favorite_movies">Favorite</string>
     <string name="movie_details">Movie details</string>
 
+    <string name="visit_website">Visit website</string>
+
     <string name="no_ratings">No ratings</string>
 
-    <string name="movie_row_desc_pattern">%s\u0020\u0020&#8226;\u0020\u0020%s</string>
+    <!-- Patterns -->
+    <string name="runtime_pattern_single">%s hour and %s minutes</string>
+    <string name="runtime_pattern_multiple">%s hours and %s minutes</string>
+    <string name="votes_pattern">%s votes</string>
+    <string name="revenue_pattern" translatable="false">%s mill.</string>
+    <string name="movie_row_desc_pattern" translatable="false">%s\u0020\u0020&#8226;\u0020\u0020%s</string>
+    <string name="visit_website_url_pattern" translatable="false"><![CDATA[<a href="%s">%s</a>]]></string>
 
 </resources>

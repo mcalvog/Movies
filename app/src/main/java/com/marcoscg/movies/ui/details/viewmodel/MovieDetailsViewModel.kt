@@ -35,4 +35,13 @@ class MovieDetailsViewModel : ViewModel() {
             })
     }
 
+    fun toggleFavorite(movie: MovieExtended?) {
+        // TODO implement this feature
+    }
+
+    fun isFavorite(movie: MovieExtended?): Boolean {
+        // TODO implement this method
+        return false
+    }
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_fragment_movie_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,39 +16,186 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginTop="@dimen/margin_medium"
+            app:expandedTitleMarginStart="@dimen/margin_extra_big"
+            app:expandedTitleGravity="top|center_horizontal"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/actionBarSize"
+                android:paddingTop="@dimen/margin_extra_small"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
-                android:orientation="horizontal">
+                android:paddingBottom="@dimen/margin_semi_medium">
 
-                <com.marcoscg.movies.common.widget.SquareImageView
-                    android:id="@+id/iv_activity_movie_details"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/margin_small"
-                    android:scaleType="centerCrop"
-                    android:background="@android:color/darker_gray"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintWidth_max="@dimen/collapsing_toolbar_max_width">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
-            </LinearLayout>
+                        <com.marcoscg.movies.common.widget.SquareImageView
+                            android:id="@+id/iv_activity_movie_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_medium"
+                            android:layout_marginEnd="@dimen/margin_medium"
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:scaleType="centerCrop"
+                            android:background="@android:color/darker_gray"
+                            app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.marcoscg.movies.common.widget.CenteredToolbar
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:weightSum="4"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/margin_medium"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_activity_movie_details_company_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="0dp"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                app:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_baseline_business_24" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/company_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                android:textColor="@android:color/white"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                tools:text="Company name"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/margin_medium"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_activity_movie_details_runtime_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="0dp"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                app:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_baseline_access_time_24" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/runtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                android:textColor="@android:color/white"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                tools:text="Runtime"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/margin_medium"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_activity_movie_details_year_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="0dp"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                app:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_today_black_24dp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                android:textColor="@android:color/white"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                tools:text="Year"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/margin_medium"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_activity_movie_details_website_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="0dp"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                app:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_web_black_24dp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/website"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                android:textColor="@android:color/white"
+                                android:textColorLink="@android:color/white"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                tools:text="Website"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -107,6 +255,14 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="?android:textColorSecondary"/>
 
+                    <View android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/margin_semi_medium"
+                        android:layout_marginBottom="@dimen/margin_semi_medium"
+                        android:background="?android:listDivider"/>
+
+                    <include layout="@layout/layout_movie_details_rating" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -114,5 +270,15 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/favorite_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_star_border_black_24dp"
+        app:layout_anchor="@id/app_bar"
+        app:backgroundTint="@color/colorLightGray"
+        app:layout_anchorGravity="bottom|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

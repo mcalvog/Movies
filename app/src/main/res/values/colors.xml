@@ -5,6 +5,9 @@
     <color name="colorAccent">#ffa000</color>
     <color name="colorBackground">#ffffff</color>
 
+    <color name="colorDarkGray">#303030</color>
+    <color name="colorLightGray">#d9d9d9</color>
+
     <color name="colorStatusBarLight">#CCFFFFFF</color>
     <color name="colorStatusBarDark">#CC202124</color>
 

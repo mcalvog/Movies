@@ -8,8 +8,8 @@
 
     <fragment
         android:id="@+id/nav_popular"
-        android:name="com.marcoscg.movies.ui.home.PopularFragment"
-        android:label="@string/popular_movies"
+        android:name="com.marcoscg.movies.ui.home.FavoriteFragment"
+        android:label="@string/favorite_movies"
         tools:layout="@layout/fragment_movie_list" />
 
 </navigation>
