@@ -1,6 +1,6 @@
 package com.marcoscg.movies.data.sources.remote.service
 
-import com.marcoscg.movies.model.MovieExtended
+import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.model.MoviesResponse
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -16,6 +16,6 @@ interface MovieService {
     fun getUpcomingMovies(@Query("page") page: Int): Single<MoviesResponse>
 
     @GET("movie/{id}")
-    fun getSingleMovie(@Path("id") id: String): Single<MovieExtended>
+    fun getSingleMovie(@Path("id") id: String): Single<MovieDetail>
 
 }

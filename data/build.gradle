@@ -1,8 +1,26 @@
-apply plugin: 'kotlin'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
-configurations.all {
-    resolutionStrategy {
-        force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["minSdkVersion"]
+        targetSdkVersion globalConfiguration["targetSdkVersion"]
+
+        buildConfigField "String", "THE_MOVIE_DB_API_KEY", "\"" + getApiKey() + "\""
+
+        // Enabling multidex support
+        multiDexEnabled true
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        dexInProcess = false
+        javaMaxHeapSize "4g"
     }
 }
 
@@ -16,14 +34,18 @@ dependencies {
     implementation dataDependencies.javaxAnnotation
     implementation dataDependencies.javaxInject
     implementation dataDependencies.rxKotlin
+    implementation dataDependencies.roomRxJava
     implementation dataDependencies.retrofit
     implementation dataDependencies.retrofitGson
     implementation dataDependencies.retrofitRx
     implementation dataDependencies.okHttpLogging
+    implementation dataDependencies.roomRuntime
+
+    kapt dataDependencies.roomCompiler
 }
 
 static def getApiKey() {
     Properties props = new Properties()
-    props.load(new FileInputStream(new File('secrets.properties')))
+    props.load(new FileInputStream(new File('keystore.properties')))
     return props['THE_MOVIE_DB_API_KEY']
 }

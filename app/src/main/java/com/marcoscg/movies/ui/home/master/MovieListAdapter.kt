@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.marcoscg.movies.R
 import com.marcoscg.movies.common.glide.load
+import com.marcoscg.movies.common.utils.dp
 import com.marcoscg.movies.data.sources.remote.api.ApiClient
 import com.marcoscg.movies.model.Movie
 import kotlinx.android.synthetic.main.row_movie_list.view.*
@@ -43,7 +44,9 @@ class PopularMoviesAdapter(val context: Context?, var items: List<Movie> = Array
         holder.ivMoviePoster.transitionName = movie.id.toString()
         holder.llMovieTextContainer.setBackgroundColor(Color.DKGRAY)
 
-        holder.ivMoviePoster.load(ApiClient.POSTER_BASE_URL + movie.poster_path, true) { color ->
+        holder.ivMoviePoster.load(url = ApiClient.POSTER_BASE_URL + movie.poster_path,
+            crossFade = true, width = 160.dp, height = 160.dp) { color ->
+
             holder.llMovieTextContainer.setBackgroundColor(color)
         }
 

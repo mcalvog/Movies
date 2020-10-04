@@ -3,13 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_favorite"
-    app:startDestination="@id/nav_popular"
+    app:startDestination="@id/nav_favorite"
     tools:ignore="UnusedNavigation">
 
     <fragment
-        android:id="@+id/nav_popular"
+        android:id="@+id/nav_favorite"
         android:name="com.marcoscg.movies.ui.home.FavoriteFragment"
         android:label="@string/favorite_movies"
-        tools:layout="@layout/fragment_movie_list" />
+        tools:layout="@layout/fragment_movie_list">
+
+        <action
+            android:id="@+id/navigateToMovieDetails"
+            app:destination="@id/nav_movie_detail"/>
+
+    </fragment>
+
+    <activity
+        android:id="@+id/nav_movie_detail"
+        android:name="com.marcoscg.movies.ui.details.MovieDetailsActivity">
+
+        <argument
+            android:name="id"
+            app:argType="integer" />
+
+        <argument
+            android:name="poster_path"
+            app:argType="string"/>
+
+    </activity>
 
 </navigation>

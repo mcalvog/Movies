@@ -10,4 +10,9 @@ object ColorUtils {
         @ColorInt
         get() = ColorUtils.blendARGB(this, Color.BLACK, 0.2f)
 
+    fun isDark(color: Int): Boolean {
+        return ColorUtils.calculateLuminance(color) < 0.5
+    }
+
+
 }

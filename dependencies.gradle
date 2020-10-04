@@ -63,7 +63,10 @@ ext {
             retrofit:              "com.squareup.retrofit2:retrofit:$retrofitVersion",
             retrofitGson:          "com.squareup.retrofit2:converter-gson:$retrofitVersion",
             retrofitRx:            "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
-            okHttpLogging:         "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingVersion"
+            okHttpLogging:         "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingVersion",
+            roomRuntime:           "androidx.room:room-runtime:$room_version",
+            roomCompiler:          "androidx.room:room-compiler:$room_version",
+            roomRxJava:            "androidx.room:room-rxjava2:$room_version"
     ]
 
     modelDependencies = [

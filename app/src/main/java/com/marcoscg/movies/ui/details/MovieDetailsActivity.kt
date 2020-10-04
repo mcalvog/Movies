@@ -13,15 +13,12 @@ import com.google.android.material.chip.Chip
 import com.marcoscg.movies.R
 import com.marcoscg.movies.base.BaseActivity
 import com.marcoscg.movies.common.glide.load
+import com.marcoscg.movies.common.utils.*
 import com.marcoscg.movies.common.utils.ColorUtils.darken
-import com.marcoscg.movies.common.utils.TimeUtils
-import com.marcoscg.movies.common.utils.gone
-import com.marcoscg.movies.common.utils.orNa
-import com.marcoscg.movies.common.utils.visible
 import com.marcoscg.movies.data.Resource
 import com.marcoscg.movies.data.sources.remote.api.ApiClient
 import com.marcoscg.movies.model.Genres
-import com.marcoscg.movies.model.MovieExtended
+import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.ui.details.viewmodel.MovieDetailsViewModel
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import kotlinx.android.synthetic.main.layout_movie_details_rating.*
@@ -45,7 +42,7 @@ class MovieDetailsActivity : BaseActivity() {
         setupToolbar()
         clearStatusBar()
 
-        iv_activity_movie_details.transitionName = args.id.toString()
+        setupPosterImage()
 
         if (movieDetailsViewModel.getSingleMovie().value == null)
             movieDetailsViewModel.fetchSingleMovie(args.id.toString())
@@ -54,7 +51,9 @@ class MovieDetailsActivity : BaseActivity() {
             handleSingleMovieDataState(it)
         })
 
-        postponeEnterTransition()
+        movieDetailsViewModel.getFavoriteMovieState().observe(this, Observer {
+            handleFavoriteMovieDataState(it)
+        })
     }
 
     override fun onBackPressed() {
@@ -67,7 +66,7 @@ class MovieDetailsActivity : BaseActivity() {
         ActivityNavigator.applyPopAnimationsToPendingTransition(this)
     }
 
-    private fun handleSingleMovieDataState(state: Resource<MovieExtended>) {
+    private fun handleSingleMovieDataState(state: Resource<MovieDetail>) {
         when (state.status) {
             Resource.Status.LOADING -> {
                 progress_bar.visible()
@@ -84,7 +83,19 @@ class MovieDetailsActivity : BaseActivity() {
         }
     }
 
-    private fun loadMovieData(data: MovieExtended?) {
+    private fun handleFavoriteMovieDataState(state: Resource<Boolean>) {
+        when (state.status) {
+            Resource.Status.LOADING -> { }
+            Resource.Status.SUCCESS -> {
+                updateFavoriteButton(state.data)
+            }
+            Resource.Status.ERROR -> {
+                Toast.makeText(this, "Error: ${state.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun loadMovieData(data: MovieDetail?) {
         data?.let {
             collapsing_toolbar.title = data.title
             detail_description.text = data.overview
@@ -110,15 +121,20 @@ class MovieDetailsActivity : BaseActivity() {
             detail_revenue.text = getString(R.string.revenue_pattern, DecimalFormat("##.##").format(data.revenue / 1000000.0))
 
             favorite_fab.setOnClickListener {
-                movieDetailsViewModel.toggleFavorite(data)
+                movieDetailsViewModel.toggleFavorite(this, data)
             }
-        }
 
-        iv_activity_movie_details.load(ApiClient.POSTER_BASE_URL + args.posterPath) { color ->
-            window?.statusBarColor = color.darken
-            collapsing_toolbar.setBackgroundColor(color)
-            collapsing_toolbar.setContentScrimColor(color)
-            startPostponedEnterTransition()
+            movieDetailsViewModel.fetchFavoriteMovieState(this, data)
+        }
+    }
+
+    private fun updateFavoriteButton(data: Boolean?) {
+        data?.let { favorite ->
+            favorite_fab.setImageResource(
+                if (favorite)
+                    R.drawable.ic_baseline_star_24
+                else R.drawable.ic_star_border_black_24dp
+            )
         }
     }
 
@@ -137,6 +153,18 @@ class MovieDetailsActivity : BaseActivity() {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
+        }
+    }
+
+    private fun setupPosterImage() {
+        postponeEnterTransition()
+
+        iv_activity_movie_details.transitionName = args.id.toString()
+        iv_activity_movie_details.load(url = ApiClient.POSTER_BASE_URL + args.posterPath, width = 160.dp, height = 160.dp) { color ->
+            window?.statusBarColor = color.darken
+            collapsing_toolbar.setBackgroundColor(color)
+            collapsing_toolbar.setContentScrimColor(color)
+            startPostponedEnterTransition()
         }
     }
 
