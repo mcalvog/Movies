@@ -69,6 +69,21 @@ class MovieDetailsViewModel : ViewModel() {
             })
     }
 
+    fun updateFavoriteMovie(context: Context, movie: MovieDetail) {
+        favoritesLiveData.postValue(Resource.loading())
+
+        disposable = UpdateFavoriteMovieUseCase(MoviesLocalRepositoryImpl(context)).execute(movie.toSimple())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                favoritesLiveData.postValue(Resource.success(true))
+            }, { throwable ->
+                throwable.localizedMessage?.let {
+                    favoritesLiveData.postValue(Resource.error(it))
+                }
+            })
+    }
+
     fun toggleFavorite(context: Context, movie: MovieDetail) {
         favoritesLiveData.postValue(Resource.loading())
 
@@ -95,7 +110,8 @@ class MovieDetailsViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                // favorite movie exists
+                // favorite movie exists, update data first
+                updateFavoriteMovie(context, movie)
                 favoritesLiveData.postValue(Resource.success(true))
             }, {
                 // favorite movie does not exist

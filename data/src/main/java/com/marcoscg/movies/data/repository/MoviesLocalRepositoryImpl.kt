@@ -36,4 +36,8 @@ class MoviesLocalRepositoryImpl(val context: Context) : MoviesLocalRepository {
         return MoviesDatabase.invoke(context).movieDao().deleteFavoriteMovie(moviesLocalMapper.mapToLocal(movie))
     }
 
+    override fun updateFavoriteMovie(movie: Movie): Completable {
+        return MoviesDatabase.invoke(context).movieDao().updateFavoriteMovie(moviesLocalMapper.mapToLocal(movie))
+    }
+
 }

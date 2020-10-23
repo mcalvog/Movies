@@ -15,4 +15,6 @@ interface MoviesLocalRepository {
 
     fun deleteFavoriteMovie(movie: Movie): Completable
 
+    fun updateFavoriteMovie(movie: Movie): Completable
+
 }

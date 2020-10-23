@@ -1,9 +1,6 @@
 package com.marcoscg.movies.data.sources.local.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.marcoscg.movies.data.sources.local.model.MovieDbModel
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -23,5 +20,8 @@ interface MovieDao {
 
     @Delete
     fun deleteFavoriteMovie(movie: MovieDbModel): Completable
+
+    @Update
+    fun updateFavoriteMovie(movie: MovieDbModel): Completable
 
 }
