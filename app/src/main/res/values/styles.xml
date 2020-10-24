@@ -10,9 +10,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+    <style name="AppTheme.Launcher" parent="AppTheme">
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
     </style>
 

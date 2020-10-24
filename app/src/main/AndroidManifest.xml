@@ -11,10 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="false"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.marcoscg.movies.ui.splash.SplashActivity"
-            android:theme="@style/SplashTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="false">
+        <activity
+            android:name="com.marcoscg.movies.ui.home.HomeActivity"
+            android:theme="@style/AppTheme.Launcher"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -22,8 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.marcoscg.movies.ui.home.HomeActivity"/>
-        <activity android:name=".ui.details.MovieDetailsActivity"/>
+        <activity android:name=".ui.details.MovieDetailsActivity" />
     </application>
 
 </manifest>
