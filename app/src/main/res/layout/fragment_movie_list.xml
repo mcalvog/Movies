@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.marcoscg.movies.common.widget.CustomSwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/srl_fragment_movie_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,8 +10,9 @@
         android:id="@+id/rv_fragment_movie_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin_minimum"
         android:clipToPadding="false"
-        android:columnWidth="@dimen/grid_column_width" />
+        android:columnWidth="@dimen/grid_column_width"
+        android:padding="@dimen/margin_minimum"
+        tools:listitem="@layout/row_movie_list" />
 
 </com.marcoscg.movies.common.widget.CustomSwipeRefreshLayout>
