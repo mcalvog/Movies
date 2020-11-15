@@ -20,21 +20,13 @@ import com.marcoscg.movies.ui.home.master.PopularMoviesAdapter
 import com.marcoscg.movies.ui.home.viewmodel.PopularViewModel
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 
-class PopularFragment : Fragment(), PopularMoviesAdapter.OnItemClickListener {
+class PopularFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAdapter.OnItemClickListener {
 
     private val popularViewModel: PopularViewModel by lazy {
         ViewModelProvider(this).get(PopularViewModel::class.java)
     }
 
     private var popularMoviesAdapter: PopularMoviesAdapter? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_movie_list, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

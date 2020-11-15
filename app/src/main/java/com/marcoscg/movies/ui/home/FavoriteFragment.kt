@@ -20,21 +20,13 @@ import com.marcoscg.movies.ui.home.master.PopularMoviesAdapter
 import com.marcoscg.movies.ui.home.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 
-class FavoriteFragment : Fragment(), PopularMoviesAdapter.OnItemClickListener {
+class FavoriteFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAdapter.OnItemClickListener {
 
     private val favoriteViewModel: FavoriteViewModel by lazy {
         ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
 
     private var popularMoviesAdapter: PopularMoviesAdapter? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_movie_list, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -44,7 +36,7 @@ class FavoriteFragment : Fragment(), PopularMoviesAdapter.OnItemClickListener {
 
         favoriteViewModel.fetchFavoriteMovies(requireContext())
 
-        favoriteViewModel.getFavoriteMovies().observe(viewLifecycleOwner, Observer {
+        favoriteViewModel.getFavoriteMovies().observe(viewLifecycleOwner, {
             handleFavoriteMoviesDataState(it)
         })
     }
