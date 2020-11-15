@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false">
+
         <activity
-            android:name="com.marcoscg.movies.ui.home.HomeActivity"
-            android:theme="@style/AppTheme.Launcher"
-            android:windowSoftInputMode="adjustResize">
+            android:name="com.marcoscg.movies.ui.splash.SplashActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.details.MovieDetailsActivity" />
+
+        <activity android:name=".ui.home.HomeActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".ui.details.MovieDetailsActivity"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
