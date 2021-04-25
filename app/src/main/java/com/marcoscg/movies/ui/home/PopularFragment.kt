@@ -15,10 +15,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.marcoscg.movies.R
 import com.marcoscg.movies.common.utils.setAnchorId
 import com.marcoscg.movies.data.Resource
+import com.marcoscg.movies.databinding.FragmentMovieListBinding
 import com.marcoscg.movies.model.Movie
 import com.marcoscg.movies.ui.home.master.PopularMoviesAdapter
 import com.marcoscg.movies.ui.home.viewmodel.PopularViewModel
-import kotlinx.android.synthetic.main.fragment_movie_list.*
 
 class PopularFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAdapter.OnItemClickListener {
 
@@ -27,6 +27,18 @@ class PopularFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAda
     }
 
     private var popularMoviesAdapter: PopularMoviesAdapter? = null
+
+    private var _binding: FragmentMovieListBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMovieListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -53,6 +65,7 @@ class PopularFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAda
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
 
         popularViewModel.disposable?.dispose()
     }
@@ -60,15 +73,15 @@ class PopularFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAda
     private fun handleMoviesDataState(state: Resource<List<Movie>>) {
         when (state.status) {
             Resource.Status.LOADING -> {
-                srl_fragment_movie_list.isRefreshing = true
+                binding.srlFragmentMovieList.isRefreshing = true
             }
             Resource.Status.SUCCESS -> {
-                srl_fragment_movie_list.isRefreshing = false
+                binding.srlFragmentMovieList.isRefreshing = false
                 loadMovies(state.data)
             }
             Resource.Status.ERROR -> {
-                srl_fragment_movie_list.isRefreshing = false
-                Snackbar.make(srl_fragment_movie_list, "Error: ${state.message}", Snackbar.LENGTH_LONG)
+                binding.srlFragmentMovieList.isRefreshing = false
+                Snackbar.make(binding.srlFragmentMovieList, "Error: ${state.message}", Snackbar.LENGTH_LONG)
                     .setAnchorId(R.id.bottom_navigation).show()
             }
         }
@@ -82,11 +95,11 @@ class PopularFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAda
         popularMoviesAdapter = PopularMoviesAdapter(context)
         popularMoviesAdapter?.setOnMovieClickListener(this)
 
-        rv_fragment_movie_list.adapter = popularMoviesAdapter
+        binding.rvFragmentMovieList.adapter = popularMoviesAdapter
     }
 
     private fun setupSwipeRefresh() {
-        srl_fragment_movie_list.setOnRefreshListener {
+        binding.srlFragmentMovieList.setOnRefreshListener {
             popularViewModel.fetchPopularMovies()
         }
     }

@@ -7,8 +7,8 @@ allprojects {
 ext {
     // Android
     minSdkVersion = 21
-    compileSdkVersion = 29
-    targetSdkVersion = 29
+    compileSdkVersion = 30
+    targetSdkVersion = 30
 
     // Libraries
     appCompatVersion = '1.2.0'

@@ -17,11 +17,10 @@ import com.marcoscg.movies.common.utils.*
 import com.marcoscg.movies.common.utils.ColorUtils.darken
 import com.marcoscg.movies.data.Resource
 import com.marcoscg.movies.data.sources.remote.api.ApiClient
+import com.marcoscg.movies.databinding.ActivityMovieDetailsBinding
 import com.marcoscg.movies.model.Genres
 import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.ui.details.viewmodel.MovieDetailsViewModel
-import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.layout_movie_details_rating.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -34,11 +33,14 @@ class MovieDetailsActivity : BaseActivity() {
         ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
     }
 
+    private lateinit var binding: ActivityMovieDetailsBinding
     private val args: MovieDetailsActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_details)
+        binding = ActivityMovieDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setupToolbar()
         clearStatusBar()
 
@@ -69,14 +71,14 @@ class MovieDetailsActivity : BaseActivity() {
     private fun handleSingleMovieDataState(state: Resource<MovieDetail>) {
         when (state.status) {
             Resource.Status.LOADING -> {
-                progress_bar.visible()
+                binding.progressBar.visible()
             }
             Resource.Status.SUCCESS -> {
-                progress_bar.gone()
+                binding.progressBar.gone()
                 loadMovieData(state.data)
             }
             Resource.Status.ERROR -> {
-                progress_bar.gone()
+                binding.progressBar.gone()
                 Toast.makeText(this, "Error: ${state.message}", Toast.LENGTH_LONG).show()
                 finish()
             }
@@ -97,30 +99,30 @@ class MovieDetailsActivity : BaseActivity() {
 
     private fun loadMovieData(data: MovieDetail?) {
         data?.let {
-            collapsing_toolbar.title = data.title
-            detail_description.text = data.overview
-            company_name.text = data.production_companies.firstOrNull()?.name.orNa()
-            runtime.text = TimeUtils.formatMinutes(this, data.runtime)
-            year.text = LocalDate.parse(data.release_date).format(
+            binding.collapsingToolbar.title = data.title
+            binding.detailDescription.text = data.overview
+            binding.companyName.text = data.production_companies.firstOrNull()?.name.orNa()
+            binding.runtime.text = TimeUtils.formatMinutes(this, data.runtime)
+            binding.year.text = LocalDate.parse(data.release_date).format(
                 DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
                     .withLocale(Locale.getDefault())
             )
-            website.text = HtmlCompat.fromHtml(
+            binding.website.text = HtmlCompat.fromHtml(
                 getString(
                     R.string.visit_website_url_pattern,
                     data.homepage,
                     getString(R.string.visit_website)
                 ), HtmlCompat.FROM_HTML_MODE_LEGACY
             )
-            website.movementMethod = LinkMovementMethod.getInstance()
+            binding.website.movementMethod = LinkMovementMethod.getInstance()
             fillGenres(data.genres)
 
             // Rating
-            detail_rating.text = data.vote_average.toString()
-            detail_votes.text = data.vote_count.toString()
-            detail_revenue.text = getString(R.string.revenue_pattern, DecimalFormat("##.##").format(data.revenue / 1000000.0))
+            binding.detailExtraInfo.detailRating.text = data.vote_average.toString()
+            binding.detailExtraInfo.detailVotes.text = data.vote_count.toString()
+            binding.detailExtraInfo.detailRevenue.text = getString(R.string.revenue_pattern, DecimalFormat("##.##").format(data.revenue / 1000000.0))
 
-            favorite_fab.setOnClickListener {
+            binding.favoriteFab.setOnClickListener {
                 movieDetailsViewModel.toggleFavorite(this, data)
             }
 
@@ -130,7 +132,7 @@ class MovieDetailsActivity : BaseActivity() {
 
     private fun updateFavoriteButton(data: Boolean?) {
         data?.let { favorite ->
-            favorite_fab.setImageResource(
+            binding.favoriteFab.setImageResource(
                 if (favorite)
                     R.drawable.ic_baseline_star_24
                 else R.drawable.ic_star_border_black_24dp
@@ -142,16 +144,16 @@ class MovieDetailsActivity : BaseActivity() {
         for (g in genres) {
             val chip = Chip(this)
             chip.text = g.name
-            genres_chip_group.addView(chip)
+            binding.genresChipGroup.addView(chip)
         }
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
     }
@@ -159,20 +161,20 @@ class MovieDetailsActivity : BaseActivity() {
     private fun setupPosterImage() {
         postponeEnterTransition()
 
-        iv_activity_movie_details.transitionName = args.id.toString()
-        iv_activity_movie_details.load(url = ApiClient.POSTER_BASE_URL + args.posterPath, width = 160.dp, height = 160.dp) { color ->
+        binding.ivActivityMovieDetails.transitionName = args.id.toString()
+        binding.ivActivityMovieDetails.load(url = ApiClient.POSTER_BASE_URL + args.posterPath, width = 160.dp, height = 160.dp) { color ->
             window?.statusBarColor = color.darken
-            collapsing_toolbar.setBackgroundColor(color)
-            collapsing_toolbar.setContentScrimColor(color)
+            binding.collapsingToolbar.setBackgroundColor(color)
+            binding.collapsingToolbar.setContentScrimColor(color)
             startPostponedEnterTransition()
         }
     }
 
     // Source: https://stackoverflow.com/a/49824144
     private fun hideFab() {
-        (favorite_fab.layoutParams as CoordinatorLayout.LayoutParams).behavior = null
-        favorite_fab.requestLayout()
-        favorite_fab.gone()
+        (binding.favoriteFab.layoutParams as CoordinatorLayout.LayoutParams).behavior = null
+        binding.favoriteFab.requestLayout()
+        binding.favoriteFab.gone()
     }
 
 }

@@ -8,17 +8,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.marcoscg.movies.R
 import com.marcoscg.movies.base.BaseActivity
 import com.marcoscg.movies.common.navigation.setupWithNavController
-import kotlinx.android.synthetic.main.activity_home.*
+import com.marcoscg.movies.databinding.ActivityHomeBinding
 
 class HomeActivity : BaseActivity() {
 
+    private lateinit var binding: ActivityHomeBinding
     private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         if (savedInstanceState == null) {
             setupBottomNavigation()
@@ -31,7 +33,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setupBottomNavigation() {
-        val controller = bottom_navigation.setupWithNavController(
+        val controller = binding.bottomNavigation.setupWithNavController(
             listOf(R.navigation.navigation_popular, R.navigation.navigation_upcoming, R.navigation.navigation_favorite),
             supportFragmentManager,
             R.id.nav_host_container,

@@ -260,7 +260,9 @@
                         android:layout_marginBottom="@dimen/margin_semi_medium"
                         android:background="?android:listDivider"/>
 
-                    <include layout="@layout/layout_movie_details_rating" />
+                    <include
+                        android:id="@+id/detail_extra_info"
+                        layout="@layout/layout_movie_details_rating" />
 
                 </LinearLayout>
 
