@@ -14,6 +14,9 @@ import io.reactivex.schedulers.Schedulers
 class UpcomingViewModel : ViewModel() {
 
     private val liveData: MutableLiveData<Resource<List<Movie>>> = MutableLiveData()
+    private var currentPage = 1
+    private var lastPage = 1
+
     var disposable: Disposable? = null
 
     fun getUpcomingMovies(): LiveData<Resource<List<Movie>>> {
@@ -23,16 +26,36 @@ class UpcomingViewModel : ViewModel() {
     fun fetchUpcomingMovies() {
         liveData.postValue(Resource.loading())
 
-        disposable = GetUpcomingMoviesUseCase(MoviesRemoteRepositoryImpl()).execute()
+        disposable = GetUpcomingMoviesUseCase(MoviesRemoteRepositoryImpl()).execute(currentPage)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ res ->
+                lastPage = res.total_pages
                 liveData.postValue(Resource.success(res.results))
             }, { throwable ->
+                lastPage = currentPage // prevent loading more pages
                 throwable.localizedMessage?.let {
                     liveData.postValue(Resource.error(it))
                 }
             })
+    }
+
+    fun fetchNextUpcomingMovies() {
+        currentPage++
+        fetchUpcomingMovies()
+    }
+
+    fun refreshUpcomingMovies() {
+        currentPage = 1
+        fetchUpcomingMovies()
+    }
+
+    fun isFirstPage(): Boolean {
+        return currentPage == 1
+    }
+
+    fun isLastPage(): Boolean {
+        return currentPage == lastPage
     }
 
 }

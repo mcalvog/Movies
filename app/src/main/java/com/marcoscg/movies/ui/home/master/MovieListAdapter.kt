@@ -20,7 +20,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
-class PopularMoviesAdapter(val context: Context?, var items: List<Movie> = ArrayList()) : RecyclerView.Adapter<ViewHolder>() {
+class MovieListAdapter(val context: Context?, var items: List<Movie> = ArrayList()) : RecyclerView.Adapter<ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(movie: Movie, container: View) // pass ImageView to make shared transition
@@ -64,8 +64,12 @@ class PopularMoviesAdapter(val context: Context?, var items: List<Movie> = Array
     }
 
     fun fillList(items: List<Movie>) {
-        this.items = items
+        this.items += items
         notifyDataSetChanged()
+    }
+
+    fun clear() {
+        this.items = emptyList()
     }
 
     fun getRating(movie: Movie): String {

@@ -16,5 +16,6 @@
     <string name="revenue_pattern" translatable="false">%s mill.</string>
     <string name="movie_row_desc_pattern" translatable="false">%s\u0020\u0020&#8226;\u0020\u0020%s</string>
     <string name="visit_website_url_pattern" translatable="false"><![CDATA[<a href="%s">%s</a>]]></string>
+    <string name="error_message_pattern">Error: %s</string>
 
 </resources>

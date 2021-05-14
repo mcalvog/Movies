@@ -1,4 +1,4 @@
-package com.marcoscg.movies.common.navigator
+package com.marcoscg.movies.common.navigation
 
 import android.app.Activity
 import android.content.Intent

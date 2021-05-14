@@ -6,13 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.marcoscg.movies.common.widget.AutofitRecyclerView
-        android:id="@+id/rv_fragment_movie_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:columnWidth="@dimen/grid_column_width"
-        android:padding="@dimen/margin_minimum"
-        tools:listitem="@layout/row_movie_list" />
+        android:layout_height="match_parent">
+
+        <com.marcoscg.movies.common.widget.AutofitRecyclerView
+            android:id="@+id/rv_fragment_movie_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:columnWidth="@dimen/grid_column_width"
+            android:paddingTop="@dimen/margin_minimum"
+            android:paddingLeft="@dimen/margin_minimum"
+            android:paddingRight="@dimen/margin_minimum"
+            android:paddingBottom="@dimen/margin_huge"
+            tools:listitem="@layout/row_movie_list" />
+
+        <ProgressBar
+            android:id="@+id/pb_fragment_movie_list"
+            android:layout_width="@dimen/small_progress_bar_size"
+            android:layout_height="@dimen/small_progress_bar_size"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_semi_medium"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
 </com.marcoscg.movies.common.widget.CustomSwipeRefreshLayout>

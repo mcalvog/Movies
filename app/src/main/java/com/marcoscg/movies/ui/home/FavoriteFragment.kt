@@ -16,16 +16,16 @@ import com.marcoscg.movies.common.utils.setAnchorId
 import com.marcoscg.movies.data.Resource
 import com.marcoscg.movies.databinding.FragmentMovieListBinding
 import com.marcoscg.movies.model.Movie
-import com.marcoscg.movies.ui.home.master.PopularMoviesAdapter
+import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.FavoriteViewModel
 
-class FavoriteFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAdapter.OnItemClickListener {
+class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
     private val favoriteViewModel: FavoriteViewModel by lazy {
         ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
 
-    private var popularMoviesAdapter: PopularMoviesAdapter? = null
+    private var movieListAdapter: MovieListAdapter? = null
 
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
@@ -79,21 +79,24 @@ class FavoriteFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAd
             }
             Resource.Status.ERROR -> {
                 binding.srlFragmentMovieList.isRefreshing = false
-                Snackbar.make(binding.srlFragmentMovieList, "Error: ${state.message}", Snackbar.LENGTH_LONG)
+                Snackbar.make(binding.srlFragmentMovieList, getString(R.string.error_message_pattern, state.message), Snackbar.LENGTH_LONG)
                     .setAnchorId(R.id.bottom_navigation).show()
             }
         }
     }
 
     private fun loadMovies(movies: List<Movie>?) {
-        movies?.let { popularMoviesAdapter?.fillList(it) }
+        movies?.let {
+            movieListAdapter?.clear()
+            movieListAdapter?.fillList(it)
+        }
     }
 
     private fun setupRecyclerView() {
-        popularMoviesAdapter = PopularMoviesAdapter(context)
-        popularMoviesAdapter?.setOnMovieClickListener(this)
+        movieListAdapter = MovieListAdapter(context)
+        movieListAdapter?.setOnMovieClickListener(this)
 
-        binding.rvFragmentMovieList.adapter = popularMoviesAdapter
+        binding.rvFragmentMovieList.adapter = movieListAdapter
     }
 
     private fun setupSwipeRefresh() {

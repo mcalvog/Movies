@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marcoscg.movies.common.utils.gone
 import com.marcoscg.movies.common.utils.visible
@@ -56,6 +57,8 @@ class AutofitRecyclerView : RecyclerView {
     fun setEmptyView(emptyView: View) {
         this.emptyView = emptyView
     }
+
+    val linearLayoutManager: LinearLayoutManager? get() = this.manager
 
     private fun init(context: Context, attrs: AttributeSet?) {
         if (attrs != null) {

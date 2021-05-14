@@ -8,12 +8,12 @@ import io.reactivex.Single
 
 class MoviesRemoteRepositoryImpl : MoviesRemoteRepository  {
 
-    override fun getPopularMovies(): Single<MoviesResponse> {
-        return ApiClient.movieService().getPopularMovies(1)
+    override fun getPopularMovies(page: Int): Single<MoviesResponse> {
+        return ApiClient.movieService().getPopularMovies(page)
     }
 
-    override fun getUpcomingMovies(): Single<MoviesResponse> {
-        return ApiClient.movieService().getUpcomingMovies(1)
+    override fun getUpcomingMovies(page: Int): Single<MoviesResponse> {
+        return ApiClient.movieService().getUpcomingMovies(page)
     }
 
     override fun getSingleMovie(id: String): Single<MovieDetail> {

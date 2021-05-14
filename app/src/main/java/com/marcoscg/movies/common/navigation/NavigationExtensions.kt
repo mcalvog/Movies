@@ -16,6 +16,8 @@ import com.marcoscg.movies.R
  * Manages the various graphs needed for a [BottomNavigationView].
  *
  * This sample is a workaround until the Navigation Component supports multiple back stacks.
+ *
+ * Taken from: https://github.com/android/architecture-components-samples
  */
 fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,

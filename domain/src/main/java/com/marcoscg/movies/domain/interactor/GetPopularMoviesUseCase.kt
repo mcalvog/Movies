@@ -6,8 +6,8 @@ import io.reactivex.Single
 
 class GetPopularMoviesUseCase(private val moviesRemoteRepository: MoviesRemoteRepository) {
 
-    fun execute(): Single<MoviesResponse> {
-        return moviesRemoteRepository.getPopularMovies()
+    fun execute(page: Int): Single<MoviesResponse> {
+        return moviesRemoteRepository.getPopularMovies(page)
     }
 
 }

@@ -6,9 +6,9 @@ import io.reactivex.Single
 
 interface MoviesRemoteRepository {
 
-    fun getPopularMovies(): Single<MoviesResponse>
+    fun getPopularMovies(page: Int): Single<MoviesResponse>
 
-    fun getUpcomingMovies(): Single<MoviesResponse>
+    fun getUpcomingMovies(page: Int): Single<MoviesResponse>
 
     fun getSingleMovie(id: String): Single<MovieDetail>
 

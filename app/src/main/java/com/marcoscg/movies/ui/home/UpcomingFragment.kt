@@ -13,20 +13,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.core.util.Pair as UtilPair
 import com.google.android.material.snackbar.Snackbar
 import com.marcoscg.movies.R
+import com.marcoscg.movies.common.recyclerview.PaginationScrollListener
+import com.marcoscg.movies.common.utils.gone
 import com.marcoscg.movies.common.utils.setAnchorId
+import com.marcoscg.movies.common.utils.visible
 import com.marcoscg.movies.data.Resource
 import com.marcoscg.movies.databinding.FragmentMovieListBinding
 import com.marcoscg.movies.model.Movie
-import com.marcoscg.movies.ui.home.master.PopularMoviesAdapter
+import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.UpcomingViewModel
 
-class UpcomingFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAdapter.OnItemClickListener {
+class UpcomingFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
     private val upcomingViewModel: UpcomingViewModel by lazy {
         ViewModelProvider(this).get(UpcomingViewModel::class.java)
     }
 
-    private var popularMoviesAdapter: PopularMoviesAdapter? = null
+    private var movieListAdapter: MovieListAdapter? = null
 
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
@@ -81,26 +84,55 @@ class UpcomingFragment : Fragment(R.layout.fragment_movie_list), PopularMoviesAd
             }
             Resource.Status.ERROR -> {
                 binding.srlFragmentMovieList.isRefreshing = false
-                Snackbar.make(binding.srlFragmentMovieList, "Error: ${state.message}", Snackbar.LENGTH_LONG)
+                binding.pbFragmentMovieList.gone()
+                Snackbar.make(binding.srlFragmentMovieList, getString(R.string.error_message_pattern, state.message), Snackbar.LENGTH_LONG)
                     .setAnchorId(R.id.bottom_navigation).show()
             }
         }
     }
 
     private fun loadMovies(movies: List<Movie>?) {
-        movies?.let { popularMoviesAdapter?.fillList(it) }
+        movies?.let {
+            if (upcomingViewModel.isFirstPage()) {
+                // Remove previous movies
+                movieListAdapter?.clear()
+            }
+
+            movieListAdapter?.fillList(it)
+        }
     }
 
     private fun setupRecyclerView() {
-        popularMoviesAdapter = PopularMoviesAdapter(context)
-        popularMoviesAdapter?.setOnMovieClickListener(this)
+        movieListAdapter = MovieListAdapter(context)
+        movieListAdapter?.setOnMovieClickListener(this)
 
-        binding.rvFragmentMovieList.adapter = popularMoviesAdapter
+        binding.rvFragmentMovieList.adapter = movieListAdapter
+        binding.rvFragmentMovieList.addOnScrollListener(object : PaginationScrollListener(binding.rvFragmentMovieList.linearLayoutManager) {
+            override fun isLoading(): Boolean {
+                val isLoading = binding.srlFragmentMovieList.isRefreshing
+
+                if (isLoading) {
+                    binding.pbFragmentMovieList.visible()
+                } else {
+                    binding.pbFragmentMovieList.gone()
+                }
+
+                return isLoading
+            }
+
+            override fun isLastPage(): Boolean {
+                return upcomingViewModel.isLastPage()
+            }
+
+            override fun loadMoreItems() {
+                upcomingViewModel.fetchNextUpcomingMovies()
+            }
+        })
     }
 
     private fun setupSwipeRefresh() {
         binding.srlFragmentMovieList.setOnRefreshListener {
-            upcomingViewModel.fetchUpcomingMovies()
+            upcomingViewModel.refreshUpcomingMovies()
         }
     }
 }
