@@ -7,7 +7,9 @@
 
     <string name="visit_website">Visit website</string>
 
+    <string name="no_release_date">No release date</string>
     <string name="no_ratings">No ratings</string>
+    <string name="no_data_na">N/A</string>
 
     <!-- Patterns -->
     <string name="runtime_pattern_single">%s hour and %s minutes</string>

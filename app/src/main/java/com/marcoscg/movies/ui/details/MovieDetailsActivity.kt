@@ -102,11 +102,14 @@ class MovieDetailsActivity : BaseActivity() {
             binding.collapsingToolbar.title = data.title
             binding.detailDescription.text = data.overview
             binding.companyName.text = data.production_companies.firstOrNull()?.name.orNa()
-            binding.runtime.text = TimeUtils.formatMinutes(this, data.runtime)
-            binding.year.text = LocalDate.parse(data.release_date).format(
-                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    .withLocale(Locale.getDefault())
-            )
+
+            binding.runtime.text = if (data.runtime > 0)
+                TimeUtils.formatMinutes(this, data.runtime) else getString(R.string.no_data_na)
+
+            binding.year.text = if (data.release_date.isNotEmpty())
+                LocalDate.parse(data.release_date).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    .withLocale(Locale.getDefault())) else getString(R.string.no_release_date)
+
             binding.website.text = HtmlCompat.fromHtml(
                 getString(
                     R.string.visit_website_url_pattern,
@@ -114,12 +117,13 @@ class MovieDetailsActivity : BaseActivity() {
                     getString(R.string.visit_website)
                 ), HtmlCompat.FROM_HTML_MODE_LEGACY
             )
+
             binding.website.movementMethod = LinkMovementMethod.getInstance()
             fillGenres(data.genres)
 
             // Rating
-            binding.detailExtraInfo.detailRating.text = data.vote_average.toString()
-            binding.detailExtraInfo.detailVotes.text = data.vote_count.toString()
+            binding.detailExtraInfo.detailRating.text = if (data.vote_average > 0) data.vote_average.toString() else getString(R.string.no_ratings)
+            binding.detailExtraInfo.detailVotes.text = if (data.vote_count > 0) data.vote_count.toString() else getString(R.string.no_data_na)
             binding.detailExtraInfo.detailRevenue.text = getString(R.string.revenue_pattern, DecimalFormat("##.##").format(data.revenue / 1000000.0))
 
             binding.favoriteFab.setOnClickListener {

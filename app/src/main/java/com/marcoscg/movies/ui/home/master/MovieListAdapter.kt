@@ -36,10 +36,14 @@ class MovieListAdapter(val context: Context?, var items: List<Movie> = ArrayList
         val movie = items[position]
 
         holder.tvMovieTitle.text = movie.title
+
         holder.tvMovieDescription.text = context?.getString(R.string.movie_row_desc_pattern,
-            LocalDate.parse(movie.release_date).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+            if (movie.release_date.isNotEmpty())
+                LocalDate.parse(movie.release_date).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+            else context.getString(R.string.no_release_date),
             getRating(movie)
         )
+
         holder.ivMoviePoster.setImageResource(R.drawable.poster_placeholder)
         holder.ivMoviePoster.transitionName = movie.id.toString()
         holder.llMovieTextContainer.setBackgroundColor(Color.DKGRAY)
