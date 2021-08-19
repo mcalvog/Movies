@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.core.util.Pair as UtilPair
 import com.google.android.material.snackbar.Snackbar
 import com.marcoscg.movies.R
@@ -23,6 +22,8 @@ import com.marcoscg.movies.databinding.FragmentMovieListBinding
 import com.marcoscg.movies.model.Movie
 import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.PopularViewModel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 class PopularFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
@@ -50,12 +51,13 @@ class PopularFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter
         setupRecyclerView()
         setupSwipeRefresh()
 
-        if (popularViewModel.getPopularMovies().value == null)
-            popularViewModel.fetchPopularMovies()
+        popularViewModel.refreshPopularMovies()
 
-        popularViewModel.getPopularMovies().observe(viewLifecycleOwner, Observer {
-            handleMoviesDataState(it)
-        })
+        viewLifecycleOwner.lifecycleScope.launch {
+            popularViewModel.popularMoviesState.collect {
+                handleMoviesDataState(it)
+            }
+        }
     }
 
     override fun onItemClick(movie: Movie, container: View) {

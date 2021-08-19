@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.core.util.Pair as UtilPair
@@ -22,6 +22,8 @@ import com.marcoscg.movies.databinding.FragmentMovieListBinding
 import com.marcoscg.movies.model.Movie
 import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.UpcomingViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class UpcomingFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
@@ -49,12 +51,13 @@ class UpcomingFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
         setupRecyclerView()
         setupSwipeRefresh()
 
-        if (upcomingViewModel.getUpcomingMovies().value == null)
-            upcomingViewModel.fetchUpcomingMovies()
+        upcomingViewModel.refreshUpcomingMovies()
 
-        upcomingViewModel.getUpcomingMovies().observe(viewLifecycleOwner, Observer {
-            handleMoviesDataState(it)
-        })
+        viewLifecycleOwner.lifecycleScope.launch {
+            upcomingViewModel.upcomingMoviesState.collect {
+                handleMoviesDataState(it)
+            }
+        }
     }
 
     override fun onItemClick(movie: Movie, container: View) {

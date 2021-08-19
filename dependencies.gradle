@@ -19,6 +19,7 @@ ext {
     androidxLifecycleVersion = '2.2.0'
     rxKotlinVersion = '2.4.0'
     rxAndroidVersion = '2.1.1'
+    coroutinesVersion = '1.5.1'
     multidexVersion = '1.0.3'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
@@ -42,6 +43,8 @@ ext {
             javaxInject:           "javax.inject:javax.inject:$javaxInjectVersion",
             rxKotlin:              "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
             rxAndroid:             "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            coroutines:            "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+            coroutinesAndroid:     "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
             glide:                 "com.github.bumptech.glide:glide:$glideVersion",
             palette:               "androidx.palette:palette:$paletteVersion",
             threeTen:              "com.jakewharton.threetenabp:threetenabp:$threeTenVersion",

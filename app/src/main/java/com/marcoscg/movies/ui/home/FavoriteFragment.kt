@@ -8,6 +8,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,8 @@ import com.marcoscg.movies.databinding.FragmentMovieListBinding
 import com.marcoscg.movies.model.Movie
 import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.FavoriteViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
@@ -47,9 +50,11 @@ class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
 
         favoriteViewModel.fetchFavoriteMovies(requireContext())
 
-        favoriteViewModel.getFavoriteMovies().observe(viewLifecycleOwner, {
-            handleFavoriteMoviesDataState(it)
-        })
+        viewLifecycleOwner.lifecycleScope.launch {
+            favoriteViewModel.favoriteMoviesState.collect {
+                handleFavoriteMoviesDataState(it)
+            }
+        }
     }
 
     override fun onItemClick(movie: Movie, container: View) {

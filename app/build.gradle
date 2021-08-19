@@ -57,6 +57,9 @@ dependencies {
     implementation appDependencies.rxKotlin
     implementation appDependencies.rxAndroid
 
+    implementation appDependencies.coroutines
+    implementation appDependencies.coroutinesAndroid
+
     implementation appDependencies.navigationFragment
     implementation appDependencies.navigationUi
 

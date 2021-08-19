@@ -5,8 +5,8 @@ import android.text.method.LinkMovementMethod
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.navArgs
 import com.google.android.material.chip.Chip
@@ -21,6 +21,8 @@ import com.marcoscg.movies.databinding.ActivityMovieDetailsBinding
 import com.marcoscg.movies.model.Genres
 import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.ui.details.viewmodel.MovieDetailsViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -46,16 +48,19 @@ class MovieDetailsActivity : BaseActivity() {
 
         setupPosterImage()
 
-        if (movieDetailsViewModel.getSingleMovie().value == null)
-            movieDetailsViewModel.fetchSingleMovie(args.id.toString())
+        movieDetailsViewModel.fetchSingleMovie(args.id.toString())
 
-        movieDetailsViewModel.getSingleMovie().observe(this, Observer {
-            handleSingleMovieDataState(it)
-        })
+        lifecycleScope.launch {
+            movieDetailsViewModel.singleMovieState.collect {
+                handleSingleMovieDataState(it)
+            }
+        }
 
-        movieDetailsViewModel.getFavoriteMovieState().observe(this, Observer {
-            handleFavoriteMovieDataState(it)
-        })
+        lifecycleScope.launch {
+            movieDetailsViewModel.favoritesState.collect {
+                handleFavoriteMovieDataState(it)
+            }
+        }
     }
 
     override fun onBackPressed() {
