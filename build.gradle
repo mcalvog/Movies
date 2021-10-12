@@ -3,8 +3,8 @@ apply from: 'dependencies.gradle'
 
 buildscript {
     ext.kotlin_version = '1.4.32'
-    ext.nav_version = '2.3.0'
-    ext.room_version = '2.2.5'
+    ext.nav_version = '2.3.5'
+    ext.room_version = '2.3.0'
     repositories {
         google()
         jcenter()

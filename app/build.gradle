@@ -43,6 +43,7 @@ android {
 
 dependencies {
     def appDependencies = rootProject.ext.appDependencies
+    def appTestDependencies = rootProject.ext.appTestDependencies
 
     implementation project(':data')
     implementation project(':domain')
@@ -74,7 +75,7 @@ dependencies {
     implementation appDependencies.swipeRefreshLayout
     implementation appDependencies.timber
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation appTestDependencies.jUnit
+    androidTestImplementation appTestDependencies.jUnitAndroidX
+    androidTestImplementation appTestDependencies.espresso
 }
