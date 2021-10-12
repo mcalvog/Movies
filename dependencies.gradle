@@ -30,6 +30,7 @@ ext {
     paletteVersion = '1.0.0'
     threeTenVersion = '1.2.4'
     swipeRefreshLayoutVersion = '1.1.0'
+    timberVersion = '5.0.1'
 
     appDependencies = [
             kotlin:                "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
@@ -50,7 +51,8 @@ ext {
             glide:                 "com.github.bumptech.glide:glide:$glideVersion",
             palette:               "androidx.palette:palette:$paletteVersion",
             threeTen:              "com.jakewharton.threetenabp:threetenabp:$threeTenVersion",
-            swipeRefreshLayout:    "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+            swipeRefreshLayout:    "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion",
+            timber:                "com.jakewharton.timber:timber:${timberVersion}"
     ]
 
     domainDependencies = [

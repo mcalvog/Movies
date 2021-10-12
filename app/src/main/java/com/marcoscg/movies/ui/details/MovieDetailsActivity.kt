@@ -26,6 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
+import timber.log.Timber
 import java.text.DecimalFormat
 import java.util.*
 
@@ -97,7 +98,9 @@ class MovieDetailsActivity : BaseActivity() {
             Resource.Status.ERROR -> {
                 Toast.makeText(this, "Error: ${state.message}", Toast.LENGTH_LONG).show()
             }
-            else -> { }
+            Resource.Status.EMPTY -> {
+                Timber.d("Empty state.")
+            }
         }
     }
 

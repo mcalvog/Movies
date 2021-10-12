@@ -72,6 +72,7 @@ dependencies {
     implementation appDependencies.palette
     implementation appDependencies.threeTen
     implementation appDependencies.swipeRefreshLayout
+    implementation appDependencies.timber
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

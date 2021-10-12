@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
@@ -85,7 +86,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
                 Snackbar.make(binding.srlFragmentMovieList, getString(R.string.error_message_pattern, state.message), Snackbar.LENGTH_LONG)
                     .setAnchorId(R.id.bottom_navigation).show()
             }
-            else -> { }
+            Resource.Status.EMPTY -> {
+                Timber.d("Empty state.")
+            }
         }
     }
 

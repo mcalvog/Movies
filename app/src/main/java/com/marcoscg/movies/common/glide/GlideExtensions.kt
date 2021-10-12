@@ -2,7 +2,6 @@ package com.marcoscg.movies.common.glide
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.util.Log
 import android.widget.ImageView
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
