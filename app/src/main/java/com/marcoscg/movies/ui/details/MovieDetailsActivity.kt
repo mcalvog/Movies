@@ -5,7 +5,6 @@ import android.text.method.LinkMovementMethod
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.navArgs
@@ -23,6 +22,7 @@ import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.ui.details.viewmodel.MovieDetailsViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -31,9 +31,7 @@ import java.util.*
 
 class MovieDetailsActivity : BaseActivity() {
 
-    private val movieDetailsViewModel: MovieDetailsViewModel by lazy {
-        ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-    }
+    private val movieDetailsViewModel: MovieDetailsViewModel by viewModel()
 
     private lateinit var binding: ActivityMovieDetailsBinding
     private val args: MovieDetailsActivityArgs by navArgs()
@@ -99,6 +97,7 @@ class MovieDetailsActivity : BaseActivity() {
             Resource.Status.ERROR -> {
                 Toast.makeText(this, "Error: ${state.message}", Toast.LENGTH_LONG).show()
             }
+            else -> { }
         }
     }
 
@@ -132,10 +131,10 @@ class MovieDetailsActivity : BaseActivity() {
             binding.detailExtraInfo.detailRevenue.text = getString(R.string.revenue_pattern, DecimalFormat("##.##").format(data.revenue / 1000000.0))
 
             binding.favoriteFab.setOnClickListener {
-                movieDetailsViewModel.toggleFavorite(this, data)
+                movieDetailsViewModel.toggleFavorite(data)
             }
 
-            movieDetailsViewModel.fetchFavoriteMovieState(this, data)
+            movieDetailsViewModel.fetchFavoriteMovieState(data)
         }
     }
 

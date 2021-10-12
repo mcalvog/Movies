@@ -7,9 +7,7 @@ import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.model.MoviesResponse
 import io.reactivex.Single
 
-class MoviesRemoteRepositoryImpl : MoviesRemoteRepository  {
-
-    private val moviesRemoteMapper = MoviesRemoteMapper()
+class MoviesRemoteRepositoryImpl(private val moviesRemoteMapper: MoviesRemoteMapper) : MoviesRemoteRepository  {
 
     override fun getPopularMovies(page: Int): Single<MoviesResponse> {
         return ApiClient.movieService().getPopularMovies(page).map {

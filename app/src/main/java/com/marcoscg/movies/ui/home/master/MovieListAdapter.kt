@@ -29,7 +29,7 @@ class MovieListAdapter(val context: Context?, var items: List<Movie> = ArrayList
     private var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(RowMovieListBinding.inflate(LayoutInflater.from(context), parent, false))
+        return ViewHolder(RowMovieListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

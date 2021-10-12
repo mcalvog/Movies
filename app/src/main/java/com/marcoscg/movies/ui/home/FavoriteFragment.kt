@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -21,14 +20,13 @@ import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.FavoriteViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
-    private val favoriteViewModel: FavoriteViewModel by lazy {
-        ViewModelProvider(this).get(FavoriteViewModel::class.java)
-    }
-
-    private var movieListAdapter: MovieListAdapter? = null
+    private val favoriteViewModel: FavoriteViewModel by sharedViewModel()
+    private val movieListAdapter: MovieListAdapter by inject()
 
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
@@ -48,7 +46,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
         setupRecyclerView()
         setupSwipeRefresh()
 
-        favoriteViewModel.fetchFavoriteMovies(requireContext())
+        favoriteViewModel.fetchFavoriteMovies()
 
         viewLifecycleOwner.lifecycleScope.launch {
             favoriteViewModel.favoriteMoviesState.collect {
@@ -87,26 +85,26 @@ class FavoriteFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
                 Snackbar.make(binding.srlFragmentMovieList, getString(R.string.error_message_pattern, state.message), Snackbar.LENGTH_LONG)
                     .setAnchorId(R.id.bottom_navigation).show()
             }
+            else -> { }
         }
     }
 
     private fun loadMovies(movies: List<Movie>?) {
         movies?.let {
-            movieListAdapter?.clear()
-            movieListAdapter?.fillList(it)
+            movieListAdapter.clear()
+            movieListAdapter.fillList(it)
         }
     }
 
     private fun setupRecyclerView() {
-        movieListAdapter = MovieListAdapter(context)
-        movieListAdapter?.setOnMovieClickListener(this)
+        movieListAdapter.setOnMovieClickListener(this)
 
         binding.rvFragmentMovieList.adapter = movieListAdapter
     }
 
     private fun setupSwipeRefresh() {
         binding.srlFragmentMovieList.setOnRefreshListener {
-            favoriteViewModel.fetchFavoriteMovies(requireContext())
+            favoriteViewModel.fetchFavoriteMovies()
         }
     }
 }

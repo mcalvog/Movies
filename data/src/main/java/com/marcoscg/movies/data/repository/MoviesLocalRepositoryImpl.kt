@@ -10,9 +10,7 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class MoviesLocalRepositoryImpl(val context: Context) : MoviesLocalRepository {
-
-    private val moviesLocalMapper = MoviesLocalMapper()
+class MoviesLocalRepositoryImpl(private val context: Context, private val moviesLocalMapper: MoviesLocalMapper) : MoviesLocalRepository {
 
     override fun getFavoriteMovies(): Observable<List<Movie>> {
         return MoviesDatabase.invoke(context).movieDao().getFavoriteMovies().map {

@@ -1,10 +1,7 @@
 package com.marcoscg.movies.ui.details.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.marcoscg.movies.data.Resource
-import com.marcoscg.movies.data.repository.MoviesLocalRepositoryImpl
-import com.marcoscg.movies.data.repository.MoviesRemoteRepositoryImpl
 import com.marcoscg.movies.domain.interactor.*
 import com.marcoscg.movies.model.MovieDetail
 import com.marcoscg.movies.model.toSimple
@@ -14,10 +11,15 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class MovieDetailsViewModel : ViewModel() {
+class MovieDetailsViewModel(private val getSingleMovieUseCase: GetSingleMovieUseCase,
+                            private val addFavoriteMovieUseCase: AddFavoriteMovieUseCase,
+                            private val deleteFavoriteMovieUseCase: DeleteFavoriteMovieUseCase,
+                            private val updateFavoriteMovieUseCase: UpdateFavoriteMovieUseCase,
+                            private val getFavoriteMovieUseCase: GetFavoriteMovieUseCase
+) : ViewModel() {
 
-    private val singleMovieStateFlow = MutableStateFlow<Resource<MovieDetail>>(Resource.loading())
-    private val favoritesStateFlow = MutableStateFlow<Resource<Boolean>>(Resource.loading())
+    private val singleMovieStateFlow = MutableStateFlow<Resource<MovieDetail>>(Resource.empty())
+    private val favoritesStateFlow = MutableStateFlow<Resource<Boolean>>(Resource.empty())
     var disposable: Disposable? = null
 
     val singleMovieState: StateFlow<Resource<MovieDetail>>
@@ -29,7 +31,7 @@ class MovieDetailsViewModel : ViewModel() {
     fun fetchSingleMovie(id: String) {
         singleMovieStateFlow.value = Resource.loading()
 
-        disposable = GetSingleMovieUseCase(MoviesRemoteRepositoryImpl()).execute(id)
+        disposable = getSingleMovieUseCase.execute(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ res ->
@@ -41,10 +43,10 @@ class MovieDetailsViewModel : ViewModel() {
             })
     }
 
-    fun addFavoriteMovie(context: Context, movie: MovieDetail) {
+    fun addFavoriteMovie(movie: MovieDetail) {
         favoritesStateFlow.value = Resource.loading()
 
-        disposable = AddFavoriteMovieUseCase(MoviesLocalRepositoryImpl(context)).execute(movie.toSimple())
+        disposable = addFavoriteMovieUseCase.execute(movie.toSimple())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -56,10 +58,10 @@ class MovieDetailsViewModel : ViewModel() {
             })
     }
 
-    fun deleteFavoriteMovie(context: Context, movie: MovieDetail) {
+    fun deleteFavoriteMovie(movie: MovieDetail) {
         favoritesStateFlow.value = Resource.loading()
 
-        disposable = DeleteFavoriteMovieUseCase(MoviesLocalRepositoryImpl(context)).execute(movie.toSimple())
+        disposable = deleteFavoriteMovieUseCase.execute(movie.toSimple())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -71,10 +73,10 @@ class MovieDetailsViewModel : ViewModel() {
             })
     }
 
-    fun updateFavoriteMovie(context: Context, movie: MovieDetail) {
+    fun updateFavoriteMovie(movie: MovieDetail) {
         favoritesStateFlow.value = Resource.loading()
 
-        disposable = UpdateFavoriteMovieUseCase(MoviesLocalRepositoryImpl(context)).execute(movie.toSimple())
+        disposable = updateFavoriteMovieUseCase.execute(movie.toSimple())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -86,30 +88,30 @@ class MovieDetailsViewModel : ViewModel() {
             })
     }
 
-    fun toggleFavorite(context: Context, movie: MovieDetail) {
+    fun toggleFavorite(movie: MovieDetail) {
         favoritesStateFlow.value = Resource.loading()
         
-        disposable = GetFavoriteMovieUseCase(MoviesLocalRepositoryImpl(context)).execute(movie.id)
+        disposable = getFavoriteMovieUseCase.execute(movie.id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 // favorite movie exists, remove from favorites
-                deleteFavoriteMovie(context, movie)
+                deleteFavoriteMovie(movie)
             }, {
                 // favorite movie does not exist, add to favorites
-                addFavoriteMovie(context, movie)
+                addFavoriteMovie(movie)
             })
     }
 
-    fun fetchFavoriteMovieState(context: Context, movie: MovieDetail) {
+    fun fetchFavoriteMovieState(movie: MovieDetail) {
         favoritesStateFlow.value = Resource.loading()
 
-        disposable = GetFavoriteMovieUseCase(MoviesLocalRepositoryImpl(context)).execute(movie.id)
+        disposable = getFavoriteMovieUseCase.execute(movie.id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 // favorite movie exists, update data first
-                updateFavoriteMovie(context, movie)
+                updateFavoriteMovie(movie)
                 favoritesStateFlow.value = Resource.success(true)
             }, {
                 // favorite movie does not exist

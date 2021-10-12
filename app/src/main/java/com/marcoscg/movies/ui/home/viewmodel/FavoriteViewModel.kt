@@ -1,9 +1,7 @@
 package com.marcoscg.movies.ui.home.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.marcoscg.movies.data.Resource
-import com.marcoscg.movies.data.repository.MoviesLocalRepositoryImpl
 import com.marcoscg.movies.domain.interactor.GetFavoriteMoviesUseCase
 import com.marcoscg.movies.model.Movie
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,18 +10,18 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class FavoriteViewModel : ViewModel() {
+class FavoriteViewModel(private val getFavoriteMoviesUseCase: GetFavoriteMoviesUseCase) : ViewModel() {
 
-    private val stateFlow = MutableStateFlow<Resource<List<Movie>>>(Resource.loading())
+    private val stateFlow = MutableStateFlow<Resource<List<Movie>>>(Resource.empty())
     var disposable: Disposable? = null
 
     val favoriteMoviesState: StateFlow<Resource<List<Movie>>>
         get() = stateFlow
 
-    fun fetchFavoriteMovies(context: Context) {
+    fun fetchFavoriteMovies() {
         stateFlow.value = Resource.loading()
 
-        disposable = GetFavoriteMoviesUseCase(MoviesLocalRepositoryImpl(context)).execute()
+        disposable = getFavoriteMoviesUseCase.execute()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ res ->

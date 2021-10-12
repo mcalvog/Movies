@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -24,14 +23,13 @@ import com.marcoscg.movies.ui.home.master.MovieListAdapter
 import com.marcoscg.movies.ui.home.viewmodel.UpcomingViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class UpcomingFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapter.OnItemClickListener {
 
-    private val upcomingViewModel: UpcomingViewModel by lazy {
-        ViewModelProvider(this).get(UpcomingViewModel::class.java)
-    }
-
-    private var movieListAdapter: MovieListAdapter? = null
+    private val upcomingViewModel: UpcomingViewModel by sharedViewModel()
+    private val movieListAdapter: MovieListAdapter by inject()
 
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
@@ -91,6 +89,7 @@ class UpcomingFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
                 Snackbar.make(binding.srlFragmentMovieList, getString(R.string.error_message_pattern, state.message), Snackbar.LENGTH_LONG)
                     .setAnchorId(R.id.bottom_navigation).show()
             }
+            else -> { }
         }
     }
 
@@ -98,16 +97,15 @@ class UpcomingFragment : Fragment(R.layout.fragment_movie_list), MovieListAdapte
         movies?.let {
             if (upcomingViewModel.isFirstPage()) {
                 // Remove previous movies
-                movieListAdapter?.clear()
+                movieListAdapter.clear()
             }
 
-            movieListAdapter?.fillList(it)
+            movieListAdapter.fillList(it)
         }
     }
 
     private fun setupRecyclerView() {
-        movieListAdapter = MovieListAdapter(context)
-        movieListAdapter?.setOnMovieClickListener(this)
+        movieListAdapter.setOnMovieClickListener(this)
 
         binding.rvFragmentMovieList.adapter = movieListAdapter
         binding.rvFragmentMovieList.addOnScrollListener(object : PaginationScrollListener(binding.rvFragmentMovieList.linearLayoutManager) {

@@ -60,6 +60,8 @@ dependencies {
     implementation appDependencies.coroutines
     implementation appDependencies.coroutinesAndroid
 
+    implementation appDependencies.koinAndroid
+
     implementation appDependencies.navigationFragment
     implementation appDependencies.navigationUi
 

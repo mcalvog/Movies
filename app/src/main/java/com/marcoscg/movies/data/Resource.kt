@@ -2,7 +2,7 @@ package com.marcoscg.movies.data
 
 class Resource<T> private constructor(val status: Status, val data: T?, val message: String?) {
     enum class Status {
-        SUCCESS, ERROR, LOADING
+        SUCCESS, ERROR, LOADING, EMPTY
     }
     companion object {
         fun <T> success(data: T?): Resource<T> {
@@ -22,6 +22,13 @@ class Resource<T> private constructor(val status: Status, val data: T?, val mess
         fun <T> loading(): Resource<T> {
             return Resource(
                 Status.LOADING,
+                null,
+                null
+            )
+        }
+        fun <T> empty(): Resource<T> {
+            return Resource(
+                Status.EMPTY,
                 null,
                 null
             )

@@ -2,7 +2,6 @@ package com.marcoscg.movies.ui.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.marcoscg.movies.data.Resource
-import com.marcoscg.movies.data.repository.MoviesRemoteRepositoryImpl
 import com.marcoscg.movies.domain.interactor.GetUpcomingMoviesUseCase
 import com.marcoscg.movies.model.Movie
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,9 +10,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class UpcomingViewModel : ViewModel() {
+class UpcomingViewModel(private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase) : ViewModel() {
 
-    private val stateFlow = MutableStateFlow<Resource<List<Movie>>>(Resource.loading())
+    private val stateFlow = MutableStateFlow<Resource<List<Movie>>>(Resource.empty())
     private var currentPage = 1
     private var lastPage = 1
 
@@ -25,7 +24,7 @@ class UpcomingViewModel : ViewModel() {
     fun fetchUpcomingMovies() {
         stateFlow.value = Resource.loading()
 
-        disposable = GetUpcomingMoviesUseCase(MoviesRemoteRepositoryImpl()).execute(currentPage)
+        disposable = getUpcomingMoviesUseCase.execute(currentPage)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ res ->
